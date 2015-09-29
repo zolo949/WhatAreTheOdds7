@@ -1,0 +1,34 @@
+# WhatAreTheOdds7
+Fork!
+import UIKit
+
+class ViewController: UIViewController {
+
+    @IBOutlet weak var strTimer: UILabel!
+
+    var endTime = NSDate().dateByAddingTimeInterval(20)
+    var timer = NSTimer()
+
+    func updateTimer() {
+        let remaining = endTime.timeIntervalSinceNow
+        strTimer.text = remaining.time
+        if remaining <= 0 {
+            endTime = NSDate().dateByAddingTimeInterval(20)
+        }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        strTimer.text =  "20:00"
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "updateTimer", userInfo: nil, repeats: true)
+        NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+}
+
+extension NSTimeInterval {
+    var time:String {
+        return String(format:"%02d:%02d", Int((self) % 60 ),Int(self*100 % 100 )  )
+    }
+}
